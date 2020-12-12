@@ -13,9 +13,9 @@ packages = c("smooth", "purrr")
 package.check <- lapply(packages, FUN)
 #-----------------------------
 { set.seed(Code)
-  Data1 <- sim.ces("p", b = 0.4, frequency = rdunif(1, 12, 6), obs = 100)
+  Data1 <- sim.ces("p", b = 0.4, frequency = rdunif(1, 12, 6), obs = 90)
   plot(Data1)
-  Data2 <- sim.es("MAdM", frequency = rdunif(1, 12, 6), obs = 100, phi = 0.95, persistence = c(0.1, 0.05, 0.01), randomizer = "rlnorm", meanlog = 0, sdlog = 0.015)
+  Data2 <- sim.es("MAdM", frequency = rdunif(1, 12, 6), obs = 90, phi = 0.95, persistence = c(0.1, 0.05, 0.01), randomizer = "rlnorm", meanlog = 0, sdlog = 0.015)
   plot(Data2)
   Data3 <- ts(rnorm(120, 0, 5) + rep(runif(12, -50, 50), 10) * rep(c(1:10), each = 12), frequency = rdunif(1, 12, 6))
   plot(Data3)
@@ -26,10 +26,10 @@ Data3 # Data set 3
 #=========================================================================================
 
 # We assign each of data sets to a variable.
-dataset1 <- ts(Data1$data, frequency = 9, start = c(1, 1), end = c(12, 1))
+dataset1 <- ts(Data1$data, frequency = 9, start = c(1, 1), end = c(10, 9))
 dataset1
 
-dataset2 <- ts(Data2$data, frequency = 12, start = c(1, 1), end = c(9, 4))
+dataset2 <- ts(Data2$data, frequency = 12, start = c(1, 1), end = c(8, 6))
 dataset2
 
 dataset3 <- Data3
@@ -135,7 +135,7 @@ DEC.MULT <- function(DATA, s, l) {
 
 # Dataset 1
 # Portray the plot of Dataset 1.
-plot(dataset1, ylab = 'Dataset 1', type = 'o', pch = 19, lwd = 3)
+plot(dataset1, ylab = 'Dataset 1', type = 'o', pch = 19, lwd = 3, xlim = c(1, 11.5))
 
 # Portray the regression line.
 regression_line <- lm(dataset1 ~ time(dataset1))
@@ -143,119 +143,135 @@ abline(regression_line, lwd = 3, col = 6)
 segments(1, 950, 12, 990, lwd = 3, col = 4)
 segments(1, 250, 12, 300, lwd = 3, col = 4)
 
+# We choose the best frequency for Dataset1.
+freq1 <- 9
+
+# Prediction
 TRSE <- NULL
-TRSE <- DEC.ADD(dataset1, 50, 1)
+TRSE <- DEC.ADD(dataset1, freq1, 1)
 TRSE
 
+# Portray prediction points.
 n <- length(dataset1)
 points(time(dataset1), TRSE$forecast[1:n], col = 3, type = "b", lwd = 3, pch = 19)
 
 betahat <- TRSE$betahat[1:2]
 seaseffect <- TRSE$seaseffect
-s <- 50
 
-xhatnltrs <- function(l) { FORECAST <- 0
-  if ((n + l) %% s == 0) {
-    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[s]
+xhatnltrs <- function(l) {
+  FORECAST <- 0
+  if ((n + l) %% freq1 == 0) {
+    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[freq1]
   }
   else
-    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[(n + l) %% s]
+    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[(n + l) %% freq1]
   return(FORECAST)
 }
 
 last_time <- max(time(dataset1))
 points(last_time, xhatnltrs(1), col = 2)
-points(last_time + 10 / 50, xhatnltrs(2), col = 2)
-points(last_time + 20 / 50, xhatnltrs(3), col = 2)
-points(last_time + 30 / 50, xhatnltrs(4), col = 2)
-points(last_time + 40 / 50, xhatnltrs(5), col = 2)
-points(last_time + 50 / 50, xhatnltrs(6), col = 2)
-lines(seq(last_time, last_time + 50 / 50, 10 / 50), lapply(1:6, xhatnltrs), col = 2, lwd = 3)
+points(last_time + 1 / freq1, xhatnltrs(2), col = 2)
+points(last_time + 2 / freq1, xhatnltrs(3), col = 2)
+points(last_time + 3 / freq1, xhatnltrs(4), col = 2)
+points(last_time + 4 / freq1, xhatnltrs(5), col = 2)
+points(last_time + 5 / freq1, xhatnltrs(6), col = 2)
+points(last_time + 6 / freq1, xhatnltrs(7), col = 2)
+points(last_time + 7 / freq1, xhatnltrs(8), col = 2)
+points(last_time + 8 / freq1, xhatnltrs(9), col = 2)
+points(last_time + 9 / freq1, xhatnltrs(10), col = 2)
+lines(seq(last_time, last_time + 9 / freq1, 1 / freq1), lapply(1:10, xhatnltrs), col = 2, lwd = 3)
 # ==============================================================================================
 
 # Dataset 2
 # Portray the plot of Dataset 2.
-plot(dataset2, ylab = 'Dataset 2', type = 'o', pch = 19, lwd = 3)
+plot(dataset2, ylab = 'Dataset 2', type = 'o', pch = 19, lwd =, xlim = c(1, 9))
 
 # Portray the regression line.
 regression_line <- lm(dataset2 ~ time(dataset2))
 abline(regression_line, lwd = 3, col = 6)
-segments(1, 9000, 9, 9675, lwd = 3, col = 4)
-segments(1, 1500, 10, 1900, lwd = 3, col = 4)
+segments(1, 10200, 9.5, 10200, lwd = 3, col = 4)
+segments(1, 1700, 10, 1700, lwd = 3, col = 4)
 
+# We choose the best frequency for Dataset2.
+freq2 <- 6
+
+# Prediction
 TRSE <- NULL
-TRSE <- DEC.ADD(dataset2, 50, 1)
+TRSE <- DEC.ADD(dataset2, freq2, 1)
 TRSE
 
+# Portray prediction points.
 n <- length(dataset2)
 points(time(dataset2), TRSE$forecast[1:n], col = 3, type = "b", lwd = 3, pch = 19)
 
 betahat <- TRSE$betahat[1:2]
 seaseffect <- TRSE$seaseffect
-s <- 50
 
 xhatnltrs <- function(l) { FORECAST <- 0
-  if ((n + l) %% s == 0) {
-    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[s]
+  if ((n + l) %% freq2 == 0) {
+    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[freq2]
   }
   else
-    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[(n + l) %% s]
+    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[(n + l) %% freq2]
   return(FORECAST)
 }
 
 last_time <- max(time(dataset2))
 points(last_time, xhatnltrs(1), col = 2)
-points(last_time + 10 / 50, xhatnltrs(2), col = 2)
-points(last_time + 20 / 50, xhatnltrs(3), col = 2)
-points(last_time + 30 / 50, xhatnltrs(4), col = 2)
-points(last_time + 40 / 50, xhatnltrs(5), col = 2)
-points(last_time + 50 / 50, xhatnltrs(6), col = 2)
-lines(seq(last_time, last_time + 50 / 50, 10 / 50), lapply(1:6, xhatnltrs), col = 2, lwd = 3)
+points(last_time + 1 / freq2, xhatnltrs(2), col = 2)
+points(last_time + 2 / freq2, xhatnltrs(3), col = 2)
+points(last_time + 3 / freq2, xhatnltrs(4), col = 2)
+points(last_time + 4 / freq2, xhatnltrs(5), col = 2)
+points(last_time + 5 / freq2, xhatnltrs(6), col = 2)
+points(last_time + 6 / freq2, xhatnltrs(7), col = 2)
+lines(seq(last_time, last_time + 6 / freq2, 1 / freq2), lapply(1:7, xhatnltrs), col = 2, lwd = 3)
 # ==============================================================================================
 
 # Dataset 3
 # Portray the plot of Dataset 3.
-plot(dataset3, ylab = 'Dataset 3', type = 'o', pch = 19, lwd = 3)
+plot(dataset3, ylab = 'Dataset 3', type = 'o', pch = 19, lwd = 3, xlim = c(1, 19))
 
 # Portray the regression line.
 regression_line <- lm(dataset3 ~ time(dataset3))
 abline(regression_line, lwd = 3, col = 6)
-segments(1, 100, 19.5, 500, lwd = 3, col = 4)
-segments(1, -100, 19.5, -400, lwd = 3, col = 4)
+segments(1, 80, 18, 400, lwd = 3, col = 4)
+segments(1, -80, 18, -475, lwd = 3, col = 4)
 
+# We choose the best frequency for Dataset3.
+freq3 <- 8
+
+# Prediction
 TRSE <- NULL
-TRSE <- DEC.MULT(dataset3, 12, 1)
+TRSE <- DEC.MULT(dataset3, freq3, 1)
 TRSE
 
+# Portray prediction points.
 n <- length(dataset3)
 points(time(dataset3), TRSE$forecast[1:n], col = 3, type = "b", lwd = 3, pch = 19)
 
 betahat <- TRSE$betahat[1:2]
 seaseffect <- TRSE$seaseffect
-s <- 12
 
-xhatnltrs <- function(l) { FORECAST <- 0
-  if ((n + l) %% s == 0) {
-    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[s]
+xhatnltrsp <- function(l) {
+  FORECAST <- 0
+  if ((n + l) %% freq3 == 0) {
+    FORECAST <- (betahat[1] + betahat[2] * (n + l)) * seaseffect[freq3]
   }
   else
-    FORECAST <- (betahat[1] + betahat[2] * (n + l)) + seaseffect[(n + l) %% s]
+    FORECAST <- (betahat[1] + betahat[2] * (n + l)) * seaseffect[(n + l) %% freq3]
   return(FORECAST)
 }
 
 last_time <- max(time(dataset3))
 points(last_time, xhatnltrs(1), col = 2)
-points(last_time + 1 / 12, xhatnltrs(2), col = 2)
-points(last_time + 2 / 12, xhatnltrs(3), col = 2)
-points(last_time + 3 / 12, xhatnltrs(4), col = 2)
-points(last_time + 4 / 12, xhatnltrs(5), col = 2)
-points(last_time + 5 / 12, xhatnltrs(6), col = 2)
-points(last_time + 6 / 12, xhatnltrs(7), col = 2)
-points(last_time + 7 / 12, xhatnltrs(8), col = 2)
-points(last_time + 8 / 12, xhatnltrs(9), col = 2)
-points(last_time + 9 / 12, xhatnltrs(10), col = 2)
-points(last_time + 10 / 12, xhatnltrs(11), col = 2)
-points(last_time + 11 / 12, xhatnltrs(12), col = 2)
-points(last_time + 12 / 12, xhatnltrs(13), col = 2)
-lines(seq(last_time, last_time + 12 / 12, 1 / 12), lapply(1:13, xhatnltrs), col = 2, lwd = 3)
+points(last_time + 1 / freq3, xhatnltrs(2), col = 2)
+points(last_time + 2 / freq3, xhatnltrs(3), col = 2)
+points(last_time + 3 / freq3, xhatnltrs(4), col = 2)
+points(last_time + 4 / freq3, xhatnltrs(5), col = 2)
+points(last_time + 5 / freq3, xhatnltrs(6), col = 2)
+points(last_time + 6 / freq3, xhatnltrs(7), col = 2)
+points(last_time + 7 / freq3, xhatnltrs(8), col = 2)
+points(last_time + 8 / freq3, xhatnltrs(9), col = 2)
+lines(seq(last_time, last_time + 8 / freq3, 1 / freq3), lapply(1:9, xhatnltrs), col = 2, lwd = 3)
 # ==============================================================================================
+# The End :)
