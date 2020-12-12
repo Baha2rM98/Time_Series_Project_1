@@ -26,10 +26,10 @@ Data3 # Data set 3
 #=========================================================================================
 
 # We assign each of data sets to a variable.
-dataset1 <- ts(Data1$data, frequency = 9, start = c(1, 1), end = c(10, 9))
+dataset1 <- Data1$data
 dataset1
 
-dataset2 <- ts(Data2$data, frequency = 12, start = c(1, 1), end = c(8, 6))
+dataset2 <- Data2$data
 dataset2
 
 dataset3 <- Data3
