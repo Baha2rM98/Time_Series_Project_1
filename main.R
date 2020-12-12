@@ -15,7 +15,7 @@ package.check <- lapply(packages, FUN)
 { set.seed(Code)
   Data1 <- sim.ces("p", b = 0.4, frequency = rdunif(1, 12, 6), obs = 90)
   plot(Data1)
-  Data2 <- sim.es("MAdM", frequency = rdunif(1, 12, 6), obs = 90, phi = 0.95, persistence = c(0.1, 0.05, 0.01), randomizer = "rlnorm", meanlog = 0, sdlog = 0.015)
+  Data2 <- sim.es("MAdM", frequency = rdunif(1, 12, 6), obs = 96, phi = 0.95, persistence = c(0.1, 0.05, 0.01), randomizer = "rlnorm", meanlog = 0, sdlog = 0.015)
   plot(Data2)
   Data3 <- ts(rnorm(120, 0, 5) + rep(runif(12, -50, 50), 10) * rep(c(1:10), each = 12), frequency = rdunif(1, 12, 6))
   plot(Data3)
@@ -201,7 +201,7 @@ segments(1, 10200, 9.5, 10200, lwd = 3, col = 4)
 segments(1, 1700, 10, 1700, lwd = 3, col = 4)
 
 # We choose the best frequency for Dataset2.
-#freq2 <- 6
+freq2 <- 12
 
 # Prediction
 TRSE <- NULL
@@ -250,11 +250,11 @@ plot(dataset3, ylab = 'Dataset 3', type = 'o', pch = 19, lwd = 3, xlim = c(1, 19
 # Portray the regression line.
 regression_line <- lm(dataset3 ~ time(dataset3))
 abline(regression_line, lwd = 3, col = 6)
-segments(1, 80, 18, 400, lwd = 3, col = 4)
-segments(1, -80, 18, -475, lwd = 3, col = 4)
+segments(1, 80, 18.5, 450, lwd = 3, col = 4)
+segments(1, -80, 18.5, -550, lwd = 3, col = 4)
 
 # We choose the best frequency for Dataset3.
-#freq3 <- 12
+freq3 <- 12
 
 # Prediction
 TRSE <- NULL
