@@ -180,6 +180,14 @@ points(last_time + 7 / freq1, xhatnltrs(8), col = 2)
 points(last_time + 8 / freq1, xhatnltrs(9), col = 2)
 points(last_time + 9 / freq1, xhatnltrs(10), col = 2)
 lines(seq(last_time, last_time + 9 / freq1, 1 / freq1), lapply(1:10, xhatnltrs), col = 2, lwd = 3)
+
+# Prediction details
+par(mfrow = c(1, 1))
+plot(TRSE$shat, ylab = 'Seasonal Efect', type = 'o', pch = 19, lwd = 3)
+plot(TRSE$yhat, ylab = 'Trend', type = 'o', pch = 19, lwd = 3)
+plot(TRSE$error, ylab = 'Errors', type = 'o', pch = 19, lwd = 3)
+abline(a = 0, b = 0, col = 'blue', lwd = 3)
+par(mfrow = c(1, 1))
 # ==============================================================================================
 
 # Dataset 2
@@ -193,7 +201,7 @@ segments(1, 10200, 9.5, 10200, lwd = 3, col = 4)
 segments(1, 1700, 10, 1700, lwd = 3, col = 4)
 
 # We choose the best frequency for Dataset2.
-freq2 <- 6
+#freq2 <- 6
 
 # Prediction
 TRSE <- NULL
@@ -225,6 +233,14 @@ points(last_time + 4 / freq2, xhatnltrs(5), col = 2)
 points(last_time + 5 / freq2, xhatnltrs(6), col = 2)
 points(last_time + 6 / freq2, xhatnltrs(7), col = 2)
 lines(seq(last_time, last_time + 6 / freq2, 1 / freq2), lapply(1:7, xhatnltrs), col = 2, lwd = 3)
+
+# Prediction details
+par(mfrow = c(1, 1))
+plot(TRSE$shat, ylab = 'Seasonal Efect', type = 'o', pch = 19, lwd = 3)
+plot(TRSE$yhat, ylab = 'Trend', type = 'o', pch = 19, lwd = 3)
+plot(TRSE$error, ylab = 'Errors', type = 'o', pch = 19, lwd = 3)
+abline(a = 0, b = 0, col = 'blue', lwd = 3)
+par(mfrow = c(1, 1))
 # ==============================================================================================
 
 # Dataset 3
@@ -238,7 +254,7 @@ segments(1, 80, 18, 400, lwd = 3, col = 4)
 segments(1, -80, 18, -475, lwd = 3, col = 4)
 
 # We choose the best frequency for Dataset3.
-freq3 <- 8
+#freq3 <- 12
 
 # Prediction
 TRSE <- NULL
@@ -263,15 +279,27 @@ xhatnltrsp <- function(l) {
 }
 
 last_time <- max(time(dataset3))
-points(last_time, xhatnltrs(1), col = 2)
-points(last_time + 1 / freq3, xhatnltrs(2), col = 2)
-points(last_time + 2 / freq3, xhatnltrs(3), col = 2)
-points(last_time + 3 / freq3, xhatnltrs(4), col = 2)
-points(last_time + 4 / freq3, xhatnltrs(5), col = 2)
-points(last_time + 5 / freq3, xhatnltrs(6), col = 2)
-points(last_time + 6 / freq3, xhatnltrs(7), col = 2)
-points(last_time + 7 / freq3, xhatnltrs(8), col = 2)
-points(last_time + 8 / freq3, xhatnltrs(9), col = 2)
-lines(seq(last_time, last_time + 8 / freq3, 1 / freq3), lapply(1:9, xhatnltrs), col = 2, lwd = 3)
+points(last_time, xhatnltrsp(1), col = 2)
+points(last_time + 1 / freq3, xhatnltrsp(2), col = 2)
+points(last_time + 2 / freq3, xhatnltrsp(3), col = 2)
+points(last_time + 3 / freq3, xhatnltrsp(4), col = 2)
+points(last_time + 4 / freq3, xhatnltrsp(5), col = 2)
+points(last_time + 5 / freq3, xhatnltrsp(6), col = 2)
+points(last_time + 6 / freq3, xhatnltrsp(7), col = 2)
+points(last_time + 7 / freq3, xhatnltrsp(8), col = 2)
+points(last_time + 8 / freq3, xhatnltrsp(9), col = 2)
+points(last_time + 9 / freq3, xhatnltrsp(10), col = 2)
+points(last_time + 10 / freq3, xhatnltrsp(11), col = 2)
+points(last_time + 11 / freq3, xhatnltrsp(12), col = 2)
+points(last_time + 12 / freq3, xhatnltrsp(13), col = 2)
+lines(seq(last_time, last_time + 12 / freq3, 1 / freq3), lapply(1:13, xhatnltrsp), col = 2, lwd = 3)
+
+# Prediction details
+par(mfrow = c(1, 1))
+plot(TRSE$shat, ylab = 'Seasonal Efect', type = 'o', pch = 19, lwd = 3)
+plot(TRSE$yhat, ylab = 'Trend', type = 'o', pch = 19, lwd = 3)
+plot(TRSE$error, ylab = 'Errors', type = 'o', pch = 19, lwd = 3)
+abline(a = 0, b = 0, col = 'blue', lwd = 3)
+par(mfrow = c(1, 1))
 # ==============================================================================================
 # The End :)
