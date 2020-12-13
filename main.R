@@ -1,5 +1,5 @@
 # Created by: Bahador Mirzazadeh
-# Created on: 11/30/2020
+# Created on: 12/05/2020
 
 # In this section we use student number as seed due to generating three parted sets of data.
 Code <- 956321025
@@ -192,7 +192,7 @@ par(mfrow = c(1, 1))
 
 # Dataset 2
 # Portray the plot of Dataset 2.
-plot(dataset2, ylab = 'Dataset 2', type = 'o', pch = 19, lwd =, xlim = c(1, 9))
+plot(dataset2, ylab = 'Dataset 2', type = 'o', pch = 19, lwd =, xlim = c(1, 9.5))
 
 # Portray the regression line.
 regression_line <- lm(dataset2 ~ time(dataset2))
@@ -232,7 +232,13 @@ points(last_time + 3 / freq2, xhatnltrs(4), col = 2)
 points(last_time + 4 / freq2, xhatnltrs(5), col = 2)
 points(last_time + 5 / freq2, xhatnltrs(6), col = 2)
 points(last_time + 6 / freq2, xhatnltrs(7), col = 2)
-lines(seq(last_time, last_time + 6 / freq2, 1 / freq2), lapply(1:7, xhatnltrs), col = 2, lwd = 3)
+points(last_time + 7 / freq2, xhatnltrs(8), col = 2)
+points(last_time + 8 / freq2, xhatnltrs(9), col = 2)
+points(last_time + 9 / freq2, xhatnltrs(10), col = 2)
+points(last_time + 10 / freq2, xhatnltrs(11), col = 2)
+points(last_time + 11 / freq2, xhatnltrs(12), col = 2)
+points(last_time + 12 / freq2, xhatnltrs(13), col = 2)
+lines(seq(last_time, last_time + 12 / freq2, 1 / freq2), lapply(1:13, xhatnltrs), col = 2, lwd = 3)
 
 # Prediction details
 par(mfrow = c(1, 1))
